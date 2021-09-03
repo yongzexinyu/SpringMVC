@@ -4,10 +4,18 @@ import com.xiexin.bean.AdminInfo;
 import com.xiexin.bean.Dog;
 import com.xiexin.bean.Lover;
 import com.xiexin.bean.NongZuoWu;
+
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
+
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -177,4 +185,59 @@ public class AdminController {
     codeMap.put("data",nongZuoWu);
     return  codeMap;
 }
+//第一种的springmvc的传值方式！！  原始方式:request + session + request 的转发
+    //传统的mvc方法（不返回json数据，不使用 @ResponseBody） 他要跳转 jsp  跳转jsp的方式1 返回值是String
+    //页面传值： 即 四大作用域 request session application page
+    @RequestMapping("/yuansheng")//什么是页面传值  登录页
+    public String yuansheng(AdminInfo adminInfo, HttpSession session){
+     //   public String yuansheng(AdminInfo adminInfo, HttpServletRequest request){
+        System.out.println("原生方式 页面传值");
+        System.out.println("adminInfo = " + adminInfo);
+        //登录如果验证成功 就需要把 登录信息 放入到session域中
+       session.setAttribute("adminInfo",adminInfo);
+
+       /* String adminName=request.getParameter("adminName");
+        String  adminPwd=request.getParameter("adminPwd");
+        request.setAttribute("adminName",adminName);
+        request.setAttribute("adminPwd",adminPwd);*/
+        return "home";//这个 和  PagesController 里的查找jsp 的方法没联系
+       // return  "forward:/WEB-INF/pages/home.jsp"; //springmvc中的转发
+        //return "forward:/pages/home";//springmvc中的转发
+        //重定向  servlet  response.sendirect("/www.baidu.com") 重定向携带不了数据
+        //return  "redirect:https://www.baidu.com"; //带/和不带/的区别
+       // return  "redirect:/https://www.baidu.com";
+    }
+    //第二种springmvc的传值方式
+    @RequestMapping("/modelAndView")
+    public ModelAndView  modelAndView(AdminInfo adminInfo){
+        //model 和 view 同俗 数据和显示 modelAndView 可以代替转发功能 更强大了
+        ModelAndView mv=new ModelAndView();
+        mv.addObject("adminName",adminInfo.getAdminName());
+        mv.addObject("adminPwd",adminInfo.getAdminPwd());
+        System.out.println("以上是model的绑定，即数据的绑定");
+        mv.setViewName("home");
+        return  mv;
+    }
+    //第三种springmvcde 传值方式 ！！ model
+    @RequestMapping("/model")
+    public String  model(AdminInfo adminInfo, Model model){
+        model.addAttribute("adminName",adminInfo.getAdminName());
+        model.addAttribute("adminPwd",adminInfo.getAdminPwd());
+
+        return  "home";
+    }
+    //第四种 springmvc 的传值方式 ！！ modelMap
+    @RequestMapping("/modelMap")
+    public String modelMap(AdminInfo adminInfo, ModelMap modelMap){
+        modelMap.put("adminName",adminInfo.getAdminName());
+        modelMap.put("adminPwd",adminInfo.getAdminPwd());
+        return  "home";
+    }
+    //第五种  springmvc传值方式 map灵活
+    @RequestMapping("/map")
+    public  String  map(AdminInfo adminInfo,Map<String,Object> map){
+        map.put("adminName",adminInfo.getAdminName());
+        map.put("adminPwd",adminInfo.getAdminPwd());
+        return "home";
+    }
 }

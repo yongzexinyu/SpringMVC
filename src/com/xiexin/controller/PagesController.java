@@ -35,4 +35,8 @@ public class PagesController {
     public  String  nongZuoWu(){
         return  "nongZuoWu";
     }
+    @RequestMapping("/home")
+    public  String home(){
+        return  "home";
+    }
 }
