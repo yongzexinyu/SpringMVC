@@ -133,7 +133,7 @@
             //data.field.adminAiHao=arr
            // layer.msg(JSON.stringify(data.field.adminAiHao.title))
             $.ajax({
-                url:"/api/admin/regBean",
+                url:"/api/admin/reg",
                 type:'POST',
                 data:{
                     "adminName":data.field.adminName,
@@ -149,7 +149,7 @@
                 success:function (res) {
                     console.log(res)
                     if(res.code==0){
-                      window.location.href="/pages/login"
+                    //  window.location.href="/pages/login"
                     }else if(res.code==4401){
                         layer.msg("你输入的秘码和重复密码不一致，注册失败")
                     }else{
@@ -160,17 +160,16 @@
         });
         //监听指定开关
         form.on('switch(switchTest)', function(data){
-            var check=this.checked ? true : false;
-            if(check){
-               data.value="是"
-                console.log(data.value)
-            }else {
-                data.value="否"
-                console.log(data.value)
-            }
-           /* layer.msg('开关checked：'+ (this.checked ? 'true' : 'false'), {
-                offset: '6px'
-            });*/
+
+            data.field.switch = data.field.switch ? "on": "off";
+            layer.msg(JSON.stringify(data.field));
+            return false;
+
+
+
+            /* layer.msg('开关checked：'+ (this.checked ? 'true' : 'false'), {
+                 offset: '6px'
+             });*/
           //  layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
         });
     });

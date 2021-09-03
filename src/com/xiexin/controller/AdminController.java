@@ -3,6 +3,7 @@ package com.xiexin.controller;
 import com.xiexin.bean.AdminInfo;
 import com.xiexin.bean.Dog;
 import com.xiexin.bean.Lover;
+import com.xiexin.bean.NongZuoWu;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +34,7 @@ public class AdminController {
     //第一种收取参数方式：数据类型接收参数
     @RequestMapping("/reg")//layui版本的
     @ResponseBody//这个注解就是 返回给前端的 json数据
-    public  Map reg(String adminName, String adminPwd, String adminPwdR, String adminTime, String adminSex, ArrayList<String> adminAiHao, String adminCity, String adminOpen){
+    public  Map reg(String adminName, String adminPwd, String adminPwdR, String adminTime, String adminSex,@RequestParam("adminAiHao[]") ArrayList<String> adminAiHao, String adminCity, String adminOpen){
         this.adminAiHao = adminAiHao;
         System.out.println("adminTime = " + adminTime);
         System.out.println("adminSex = " + adminSex);
@@ -166,5 +167,14 @@ public class AdminController {
 
         return  null;
     }
-
+@RequestMapping("/nongZuoWu")
+    @ResponseBody
+    public  Map  nongZuoWu(@RequestBody NongZuoWu nongZuoWu){
+    System.out.println("nongZuoWu = " + nongZuoWu);
+    Map codeMap=new HashMap();
+    codeMap.put("code",0);
+    codeMap.put("msg","购买成功");
+    codeMap.put("data",nongZuoWu);
+    return  codeMap;
+}
 }

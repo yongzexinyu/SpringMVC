@@ -2,6 +2,7 @@ package com.xiexin.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/pages")
@@ -29,5 +30,9 @@ public class PagesController {
     @RequestMapping("/ajaxCommit")
     public String ajaxCommit(){
         return  "ajaxCommit";
+    }
+    @RequestMapping("/nongZuoWu")
+    public  String  nongZuoWu(){
+        return  "nongZuoWu";
     }
 }
