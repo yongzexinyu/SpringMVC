@@ -13,7 +13,7 @@
 </head>
 <body>
         <div>
-            <input type="button" value="ajax 的 01 中传参数 k-结构或者对象" id="ajax01">
+            <input type="button" value="ajax 的 01 中传参数 kv结构" id="ajax01">
             <input type="button" value="ajax 的 02 中传参数 对象" id="ajax02">
             <input type="button" value="ajax 的 03 中传参数 传数组或者集合" id="ajax03">
             <input type="button" value="ajax 的 04 中传参数 json 对象" id="ajax04">

@@ -23,21 +23,8 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/api/admin")
-public class AdminController {
+public class AdminController3 {
     private ArrayList<String> adminAiHao;
-    //注册成功后，如果是单体项目-----就要跳转到登录页面，这个跳转是后台的转发，重定向，总之就是
-    //后台负责跳转，携带数据的跳转页面的
-    //如果是 新型的项目 即前后端分离的，那么 后台 只负责 返回给前端json数据
-    //跳转是 前端来处理的 前端根据 后台返回code 代码，进行跳转。
-    //如果前端负责跳转，他会起一个好听的名字，叫做路由
-
-    //什么是前后端分离 即: 项目上的分离 和 数据上的分离
-    //项目上的分离： 前端一个项目 后台一个项目  2个项目. 他们的认证是 token/jwt + redis
-    //数据上的分离： 还是一个项目 只不过 前后端 用json来交互数据
-    //很少在用jstl/el 表达式 来写项目。他们的认证 是 session
-
-    //layui 在ssm 框架 的使用，其实是 数据上的分离 也可以项目上的分离。
-    //那么他就是 json 交互的， 那么后台 只需要 给他 返回json数据就可以了
 
     //第一种收取参数方式：数据类型接收参数
     @RequestMapping("/reg")//layui版本的
@@ -93,12 +80,12 @@ public class AdminController {
         codeMap.put("msg","注册成功");
         return  codeMap;
     }
-    
+
     //ajax接收数据/集合
     @RequestMapping("/ajax03")
     @ResponseBody
     public Map ajax03(@RequestParam("ids[]") List<Integer> ids){
-      //当前后端参数不一样的时候 那么就需要注解调整
+        //当前后端参数不一样的时候 那么就需要注解调整
         for (Integer id:ids) {
             System.out.println("id = " + id);
         }
@@ -130,11 +117,11 @@ public class AdminController {
         codeMap.put("data1","lover");
         codeMap.put("data2","dog");
         return  codeMap;
-}
+    }
     //前端传来的多个对象 需要根据请求的前缀进行绑定
     @InitBinder("lover")
     public  void binding01(WebDataBinder webDataBinder){//WebDataBinder 网络数据绑定
-        webDataBinder.setFieldDefaultPrefix("lover.");//设置前缀 lover.name：老薛
+        webDataBinder.setFieldDefaultPrefix("lover.");//设置前缀
 
     }
     @InitBinder("dog")
@@ -176,42 +163,32 @@ public class AdminController {
 
         return  null;
     }
-@RequestMapping("/nongZuoWu")
+    @RequestMapping("/nongZuoWu")
     @ResponseBody
     public  Map  nongZuoWu(@RequestBody NongZuoWu nongZuoWu){
-    System.out.println("nongZuoWu = " + nongZuoWu);
-    Map codeMap=new HashMap();
-    codeMap.put("code",0);
-    codeMap.put("msg","购买成功");
-    codeMap.put("data",nongZuoWu);
-    return  codeMap;
-}
-//第一种的springmvc的传值方式！！  原始方式:request + session + request 的转发
+        System.out.println("nongZuoWu = " + nongZuoWu);
+        Map codeMap=new HashMap();
+        codeMap.put("code",0);
+        codeMap.put("msg","购买成功");
+        codeMap.put("data",nongZuoWu);
+        return  codeMap;
+    }
+    //第一种的springmvc的传值方式！！  原始方式:request + session + request 的转发
     //传统的mvc方法（不返回json数据，不使用 @ResponseBody） 他要跳转 jsp  跳转jsp的方式1 返回值是String
     //页面传值： 即 四大作用域 request session application page
     @RequestMapping("/yuansheng")//什么是页面传值  登录页
     public String yuansheng(AdminInfo adminInfo, HttpSession session){
-     //   public String yuansheng(HttpSession session HttpServletRequest request){
+        //   public String yuansheng(HttpSession session HttpServletRequest request){
         System.out.println("原生方式 页面传值");
         System.out.println("adminInfo = " + adminInfo);
         //登录如果验证成功 就需要把 登录信息 放入到session域中
-       session.setAttribute("adminInfo",adminInfo);
-
-       /* String adminName=request.getParameter("adminName");
-        String  adminPwd=request.getParameter("adminPwd");
-        request.setAttribute("adminName",adminName);
-        request.setAttribute("adminPwd",adminPwd);*/
-        return "home";//这个 和  PagesController 里的查找jsp 的方法没联系
-       // return  "forward:/WEB-INF/pages/home.jsp"; //springmvc中的转发
-        //return "forward:/pages/home";//springmvc中的转发
-        //重定向  servlet  response.sendirect("/www.baidu.com") 重定向携带不了数据
-        //return  "redirect:https://www.baidu.com"; //带/和不带/的区别  相对路径
-       // return  "redirect:/https://www.baidu.com";绝对路径
+        session.setAttribute("adminInfo",adminInfo);
+        return "home";
     }
     //第二种springmvc的传值方式
     @RequestMapping("/modelAndView")
     public ModelAndView  modelAndView(AdminInfo adminInfo){
-        //model 和 view 同俗 数据和显示 modelAndView 可以代替转发功能 更强大了
+        //model 和 view 同俗 数据和显示 modelAndView 可以代替转发功能
         ModelAndView mv=new ModelAndView();
         mv.addObject("adminName",adminInfo.getAdminName());
         mv.addObject("adminPwd",adminInfo.getAdminPwd());
